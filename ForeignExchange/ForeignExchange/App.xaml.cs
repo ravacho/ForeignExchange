@@ -1,17 +1,20 @@
 ﻿using System;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms;
+using ForeignExchange.Views;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace ForeignExchange
 {
+
     public partial class App : Application
     {
+        
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MainView();
         }
 
         protected override void OnStart()
