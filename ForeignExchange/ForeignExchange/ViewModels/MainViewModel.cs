@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
@@ -113,27 +114,44 @@ namespace ForeignExchange.ViewModels
         {
             IsRunning = true;
             Result = "Loading rates...";
+            
             try
             {
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("http://exchage.net");
-                var controller = "api/rates";
-                var response = await client.GetAsync(controller);
-                var result = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                {
-                    IsRunning = false;
-                    Result = result;
-                }
-
+                //var client = new HttpClient();
+                //client.BaseAddress = new Uri("http://exchage.net");
+                //var controller = "api/rates";
+                //var response = await client.GetAsync(controller);
+                //var result = await response.Content.ReadAsStringAsync();
+                //if (!response.IsSuccessStatusCode)
+                //{
+                //    IsRunning = false;
+                //    Result = result;
+                //}
+                var result = GetResult();
                 var rates = JsonConvert.DeserializeObject<List<Rate>>(result);
                 Rates = new ObservableCollection<Rate>(rates);
+               
+                IsRunning = false;
+                IsEnabled = true;
+                Result = "Ready to Convert!!";
+
             }
             catch (Exception ex)
             {
                 IsRunning = true;
                 Result = ex.Message;
             }
+        }
+
+        private string GetResult()
+        {
+            List<Rate> rates = new List<Rate>();
+            rates.Add(new Rate(1, "EUR", 1.2, "Euros"));
+            rates.Add(new Rate(2, "DOL", 1, "Dolares"));
+            rates.Add(new Rate(3, "BOL", 150, "Bolivares"));
+            rates.Add(new Rate(3, "DAJ", 0.792, "DAJERS"));
+
+            return JsonConvert.SerializeObject(rates);
         }
         #endregion
 
@@ -184,7 +202,7 @@ namespace ForeignExchange.ViewModels
                 return;
             }
 
-            var amountConverted = amount / (decimal)SourceRate.TaxtRate * (decimal)TargetRate.TaxtRate;
+            var amountConverted = amount / (decimal)SourceRate.TaxRate * (decimal)TargetRate.TaxRate;
 
             Result = string.Format(
                     "{0} {1:C2} = {2} {3:C2}", 
