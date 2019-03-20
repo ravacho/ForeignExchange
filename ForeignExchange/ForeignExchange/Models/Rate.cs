@@ -8,7 +8,7 @@ namespace ForeignExchange.Models
     {
         public int RateId { get; set; }
         public string Code { get; set; }
-        public string TextRate { get; set; }
+        public double TaxtRate { get; set; }
         public string Name { get; set; }
     }
 }
