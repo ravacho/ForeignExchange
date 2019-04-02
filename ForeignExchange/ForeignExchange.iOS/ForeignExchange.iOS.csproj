@@ -157,4 +157,7 @@
       <Name>ForeignExchange</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\switch.png" />
+  </ItemGroup>
 </Project>

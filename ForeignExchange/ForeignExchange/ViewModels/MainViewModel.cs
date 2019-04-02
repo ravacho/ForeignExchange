@@ -110,7 +110,8 @@ namespace ForeignExchange.ViewModels
         #endregion
 
         #region Methods
-        async System.Threading.Tasks.Task LoadRatesAsync()
+        //async System.Threading.Tasks.Task LoadRatesAsync()
+        private void LoadRatesAsync()
         {
             IsRunning = true;
             Result = "Loading rates...";
