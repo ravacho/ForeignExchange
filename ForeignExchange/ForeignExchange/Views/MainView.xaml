@@ -77,6 +77,11 @@
                     Grid.Column="2"
                     Grid.Row="1"                                        
                     Source="switch.png">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SwitchCommand}">
+                            
+                        </TapGestureRecognizer>
+                    </Image.GestureRecognizers>
                 </Image>
                  
             </Grid>

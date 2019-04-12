@@ -23,13 +23,54 @@ namespace ForeignExchange.ViewModels
         bool _isRunning;
         string _result;
         bool _isEnabled;
+        Rate _sourceRate;
+        Rate _targetRate;
         ObservableCollection<Rate> _rates;
         #endregion
 
         #region Properties
-        public string Amount { get; set; }
-        public Rate SourceRate { get; set; }
-        public Rate TargetRate { get; set; }
+        public string Amount
+        {
+            get;
+            set;
+        }
+
+        public Rate SourceRate
+        {
+            get
+            {
+                return _sourceRate;
+            }
+            set
+            {
+                if (_sourceRate != value)
+                {
+                    _sourceRate = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(SourceRate)));
+                }
+            }
+        }
+
+        public Rate TargetRate
+        {
+            get
+            {
+                return _targetRate;
+            }
+            set
+            {
+                if (_targetRate != value)
+                {
+                    _targetRate = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TargetRate)));
+                }
+            }
+        }
+
         public bool IsRunning
         {
             get
@@ -157,6 +198,22 @@ namespace ForeignExchange.ViewModels
         #endregion
 
         #region Commands
+        public ICommand SwithCommand
+        {
+            get
+            {
+                return new RelayCommand(Switch);
+            }
+        }
+
+        void Switch()
+        {
+            var aux = SourceRate;
+            SourceRate = TargetRate;
+            TargetRate = aux;
+            Convert();
+        }
+
         public ICommand ConvertCommand
         {
             get
@@ -164,6 +221,7 @@ namespace ForeignExchange.ViewModels
                 return new RelayCommand(Convert);
             }
         }
+
         async void Convert()
         {
             if (string.IsNullOrEmpty(Amount))
