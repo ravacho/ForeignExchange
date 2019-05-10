@@ -1,4 +1,5 @@
-﻿using ForeignExchange.Models;
+﻿using ForeignExchange.Helpers;
+using ForeignExchange.Models;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +23,7 @@ namespace ForeignExchange.ViewModels
         #region Attributes
         bool _isRunning;
         string _result;
+        string _status;
         bool _isEnabled;
         Rate _sourceRate;
         Rate _targetRate;
@@ -29,6 +31,23 @@ namespace ForeignExchange.ViewModels
         #endregion
 
         #region Properties
+        public string Status
+        { 
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Status)));
+                }
+            }
+        }
         public string Amount
         {
             get;
@@ -228,7 +247,7 @@ namespace ForeignExchange.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    "You must enter a value in amount.",
+                    Lenguages.AmountValidation,
                     "Accept");
                 return;
             }
